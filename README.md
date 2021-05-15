@@ -18,7 +18,7 @@ int main(int argc, char **argv)
   char value[] = "Hello, World";
   size_t value_len = strlen(value);
 
-  if ( !(ht = ht_create(1024, 0 /* use default size */)) ) {
+  if ( !(ht = ht_create(0 /* use default size(16) */, 0 /* use default size(8) */)) ) {
     fprintf(stderr, "ht_create() is failed: %s\n", ht_get_last_error());
     goto out;
   }
