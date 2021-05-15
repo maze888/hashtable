@@ -1,10 +1,11 @@
 # hashtable
-Hashtable is O(1) data structure library.
-Use in threads you must use lock(mutex). (same as in the case of STL(C++))
+Hashtable is O(1) data structure library. Use in threads you must use lock(mutex). (same as in the case of STL(C++))
 
 * autoscale bucket
 * maximum number of buckets can be specified when creating (may be useful in environments with severe memory constraints)
 * insert, erase, find (execution completed within O(1) time)
+
+And you need **cmake** installed to compile. 
 
 # example
 ```c
@@ -18,7 +19,7 @@ int main(int argc, char **argv)
   char value[] = "Hello, World";
   size_t value_len = strlen(value);
 
-  if ( !(ht = ht_create(0 /* use default size(16) */, 0 /* use default size(8) */)) ) {
+  if ( !(ht = ht_create(0 /* use default size(16) */,0 /* use default size(8) */)) ) {
     fprintf(stderr, "ht_create() is failed: %s\n", ht_get_last_error());
     goto out;
   }
@@ -58,4 +59,32 @@ out:
 
   return 1;
 }
+```
+# build
+```
+[maze@kercube 12:15:50 hashtable]$ ./c.sh 
+-- The C compiler identification is GNU 10.3.0
+-- The CXX compiler identification is GNU 10.3.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/maze/git/hashtable
+[maze@kercube 12:15:52 hashtable]$ make
+Scanning dependencies of target test
+[ 20%] Building C object CMakeFiles/test.dir/test.c.o
+[ 40%] Building C object CMakeFiles/test.dir/hashtable.c.o
+[ 60%] Building C object CMakeFiles/test.dir/halfsiphash.c.o
+[ 80%] Building C object CMakeFiles/test.dir/hashtable_error.c.o
+[100%] Linking C executable test
+[100%] Built target test
+[maze@kercube 12:16:02 hashtable]$ 
 ```
