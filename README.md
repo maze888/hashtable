@@ -1,6 +1,6 @@
 # hashtable
 Hashtable is O(1) data structure library.
-Use in threads you must use lock(mutex).
+Use in threads you must use lock(mutex). (same as in the case of STL(C++))
 
 * autoscale bucket
 * maximum number of buckets can be specified when creating (may be useful in environments with severe memory constraints)
