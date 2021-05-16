@@ -267,7 +267,10 @@ HashTable * ht_create(size_t max_buckets_size, size_t max_bucket_link)
 	if ( !(ht = calloc(1, sizeof(HashTable))) ) goto out;
 
 	ht->curr_buckets_size = HASHTABLE_START_SIZE;
-	if ( !(ht->buckets = calloc(ht->curr_buckets_size, sizeof(HashTableBucket *))) ) goto out;
+	if ( !(ht->buckets = calloc(ht->curr_buckets_size, sizeof(HashTableBucket *))) ) {
+		HT_SET_ERROR("calloc() is failed: (errmsg: %s, errno: %d, size: %lu)", strerror(errno), errno, ht->curr_buckets_size * sizeof(HashTableBucket));
+		goto out;
+	}
 	
 	size_t size = HASHTABLE_START_SIZE;
 	for ( ; size < max_buckets_size; size = size << 1 ) {/* no action */}
