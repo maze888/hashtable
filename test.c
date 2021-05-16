@@ -71,7 +71,7 @@ int test2(HashTable *ht, int loop)
 
 int main(int argc, char **argv)
 {
-	HashTable *ht;
+	HashTable *ht = NULL;
 
 	if ( argc != 2 ) {
 		fprintf(stderr, "%s (loop count)\n", argv[0]);

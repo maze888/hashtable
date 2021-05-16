@@ -2,8 +2,6 @@
 #include "halfsiphash.h"
 #include "hashtable_error.h"
 
-#include <openssl/rand.h>
-
 #define HASHTABLE_START_SIZE 16 /* size must expand << 1 (for hash table index) */
 #define HASHTABLE_DEFAULT_MAX_SIZE (HASHTABLE_START_SIZE << 13) /* 131072 */
 #define HASHTABLE_DEFAULT_BUCKET_LINK 8 /* for use full bucket */
