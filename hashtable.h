@@ -38,6 +38,7 @@ typedef struct hash_table {
 	hashtable_key_func erase;
 	hashtable_func clear;
 	hashtable_find_func find;
+	hashtable_key_func count;
 	hashtable_key_func empty;
 } HashTable;
 

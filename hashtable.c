@@ -264,12 +264,26 @@ static HashTableBucket * ht_find(HashTable *ht, const void *key, size_t key_len)
 	return NULL;
 }
 
+static int ht_count(HashTable *ht, const void *key, size_t key_len)
+{
+  int count;
+  HashTableBucket *bucket;
+  uint32_t index;
+
+  bucket = get_ht_bucket(ht, key, key_len, &index);
+
+  for ( count = 0; bucket; bucket = bucket->next ) {
+    if ( compare_key(bucket->key, bucket->key_len, key, key_len) == 0 ) count++;
+  }
+
+  return count;
+}
+
 static int ht_empty(HashTable *ht, const void *key, size_t key_len)
 {
-	uint32_t index;
-
-	return get_ht_bucket(ht, key, key_len, &index) ? 0 : 1; // 0: not empty, 1: empty
+  return ht_count(ht, key, key_len) > 0 ? 0 /* not empty */ : 1 /* empty */;
 }
+
 
 HashTable * ht_create(size_t max_buckets_size, size_t max_bucket_link, char multi_key)
 {
@@ -296,6 +310,7 @@ HashTable * ht_create(size_t max_buckets_size, size_t max_bucket_link, char mult
 	ht->erase = ht_erase;
 	ht->clear = ht_bucket_clear;
 	ht->find = ht_find;
+	ht->count = ht_count;
 	ht->empty = ht_empty;
 
 	return ht;
