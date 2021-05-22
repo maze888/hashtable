@@ -78,7 +78,7 @@ int main(int argc, char **argv)
 		goto out;
 	}
 
-	if ( !(ht = ht_create(1024, 0)) ) {
+	if ( !(ht = ht_create(1024, 0, 0)) ) {
 		fprintf(stderr, "ht_create() is failed: %s\n", ht_get_last_error());
 		goto out;
 	}
