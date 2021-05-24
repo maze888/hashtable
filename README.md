@@ -5,7 +5,7 @@ Hashtable is O(1) data structure library. Use in threads you must use lock(mutex
 * maximum number of buckets can be specified when creating (may be useful in environments with severe memory constraints)
 * insert, erase, find (execution completed within O(1) time)
 
-And you need **cmake** installed to compile. 
+And you need **gcc, make, cmake** installed to compile. 
 
 # example
 ```c
