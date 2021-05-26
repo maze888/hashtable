@@ -6,8 +6,6 @@
 #include <stdint.h>
 #include <errno.h>
 
-#define HT_BUCKET_NOT_FOUND 1
-
 typedef struct hash_table HashTable;
 typedef struct hash_table_bucket HashTableBucket;
 
@@ -15,6 +13,7 @@ typedef int (*hashtable_insert_func)(HashTable *ht, const void *key, size_t key_
 typedef HashTableBucket * (*hashtable_find_func)(HashTable *ht, const void *key, size_t key_len);
 typedef int (*hashtable_key_func)(HashTable *ht, const void *key, size_t key_len);
 typedef int (*hashtable_func)(HashTable *ht);
+typedef void (*hashtable_erase_free)(void *data);
 
 typedef struct hash_table_bucket {
 	void *key, *value;
@@ -33,6 +32,8 @@ typedef struct hash_table {
 	char rearrange_fail;
 	char multi_key;
 
+	hashtable_erase_free erase_free;
+
 	/* public */
 	hashtable_insert_func insert;
 	hashtable_key_func erase;
@@ -43,6 +44,7 @@ typedef struct hash_table {
 } HashTable;
 
 HashTable * ht_create(size_t max_size /* It is changed to an approximate value. (2^n) */, size_t max_bucket_link, char multi_key);
+void ht_set_erase_free(HashTable *ht, hashtable_erase_free erase_free);
 void ht_delete(HashTable *ht);
 
 void ht_dump(HashTable *ht, char detail);

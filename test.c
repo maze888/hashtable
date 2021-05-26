@@ -34,7 +34,7 @@ int test(HashTable *ht, int loop)
 
 	// erase
 	for ( i = 0; i < loop; i++ ) {
-		if ( ht->erase(ht, &keys[i], sizeof(int)) == HT_BUCKET_NOT_FOUND ) {
+		if ( ht->erase(ht, &keys[i], sizeof(int)) < 0 ) {
 			fprintf(stderr, "erase test fail: can not found to bucket: (key: %d)\n", keys[i]);
 			goto out;
 		}
@@ -48,10 +48,10 @@ int test(HashTable *ht, int loop)
 		}
 	}
 	
-	if ( ht->rearrange_fail ) {
+	/*if ( ht->rearrange_fail ) {
 		fprintf(stderr, "ht->rearrange_fail: %d\n", ht->rearrange_fail);
 		goto out;
-	}
+	}*/
 	
 	free(keys);
 
@@ -63,15 +63,51 @@ out:
 	return -1;
 }
 
-// half insert -> half find -> half insert -> half find -> full erase -> full find test
-int test2(HashTable *ht, int loop)
+int multi_key_test(HashTable *ht, int loop)
 {
+	int i, key = 1234;
+	char data[] = "Hello, World";
+	size_t data_len = strlen(data);
+	HashTableBucket *bucket;
+	
+	// insert
+	for ( i = 0; i < loop; i++ ) {
+		if ( ht->insert(ht, &key, sizeof(key), data, data_len) < 0 ) {
+			fprintf(stderr, "insert test fail: %s\n", ht_get_last_error());
+			goto out;
+		}
+	}
+	
+	// find
+	for ( i = 0; i < loop; i++ ) {
+		if ( !(bucket = ht->find(ht, &key, sizeof(key))) ) {
+			fprintf(stderr, "find test fail: (key: %d)\n", key);
+			goto out;
+		}
+	}
+	
+	// erase
+	if ( ht->erase(ht, &key, sizeof(key)) < 0 ) {
+		fprintf(stderr, "erase test fail: (key: %d)\n", key);
+		goto out;
+	}
+	
+	// find
+	if ( (bucket = ht->find(ht, &key, sizeof(key))) ) {
+		fprintf(stderr, "find test fail: (key: %d)\n", key);
+		goto out;
+	}
+
 	return 0;
+
+out:
+	return -1;
 }
 
 int main(int argc, char **argv)
 {
 	HashTable *ht = NULL;
+	HashTable *multi_key_ht = NULL;
 
 	if ( argc != 2 ) {
 		fprintf(stderr, "%s (loop count)\n", argv[0]);
@@ -82,13 +118,20 @@ int main(int argc, char **argv)
 		fprintf(stderr, "ht_create() is failed: %s\n", ht_get_last_error());
 		goto out;
 	}
+	
+	if ( !(multi_key_ht = ht_create(1024, 0, 1)) ) {
+		fprintf(stderr, "ht_create() is failed: %s\n", ht_get_last_error());
+		goto out;
+	}
 
-	if ( test(ht, atoi(argv[1])) < 0 ) goto out;
-	if ( test2(ht, atoi(argv[1])) < 0 ) goto out;
+	//if ( test(ht, atoi(argv[1])) < 0 ) goto out;
+	if ( multi_key_test(multi_key_ht, atoi(argv[1])) < 0 ) goto out;
 
-	ht_dump(ht, 1);
+	//ht_dump(ht, 1);
+	ht_dump(multi_key_ht, 1);
 
 	ht_delete(ht);
+	ht_delete(multi_key_ht);
 
 	printf("test success!\n");
 
@@ -96,6 +139,7 @@ int main(int argc, char **argv)
 
 out:
 	ht_delete(ht);
+	ht_delete(multi_key_ht);
 
 	fprintf(stderr, "test fail.\n");
 
