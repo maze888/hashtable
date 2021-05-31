@@ -124,11 +124,11 @@ int main(int argc, char **argv)
 		goto out;
 	}
 
-	//if ( test(ht, atoi(argv[1])) < 0 ) goto out;
-	if ( multi_key_test(multi_key_ht, atoi(argv[1])) < 0 ) goto out;
+	if ( test(ht, atoi(argv[1])) < 0 ) goto out;
+	//if ( multi_key_test(multi_key_ht, atoi(argv[1])) < 0 ) goto out;
 
-	//ht_dump(ht, 1);
-	ht_dump(multi_key_ht, 1);
+	ht_dump(ht, 1);
+	//ht_dump(multi_key_ht, 1);
 
 	ht_delete(ht);
 	ht_delete(multi_key_ht);
