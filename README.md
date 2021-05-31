@@ -60,7 +60,7 @@ out:
   return 1;
 }
 ```
-# build
+# build & test
 ```
 [maze@kercube 12:15:50 hashtable]$ ./c.sh 
 -- The C compiler identification is GNU 10.3.0
@@ -86,5 +86,33 @@ Scanning dependencies of target test
 [ 80%] Building C object CMakeFiles/test.dir/hashtable_error.c.o
 [100%] Linking C executable test
 [100%] Built target test
-[maze@kercube 12:16:02 hashtable]$ 
+[maze@devcube 12:01:01 hashtable]$ make
+[ 20%] Building C object CMakeFiles/test.dir/test.c.o
+[ 40%] Building C object CMakeFiles/test.dir/hashtable.c.o
+[ 60%] Building C object CMakeFiles/test.dir/halfsiphash.c.o
+[ 80%] Building C object CMakeFiles/test.dir/hashtable_error.c.o
+[100%] Linking C executable test
+[100%] Built target test
+[maze@devcube 12:01:02 hashtable]$ ./test 10
+curr_buckets_size:       16
+max_buckets_size:        1024
+bucket_count:            0
+bucket[0] link count: empty
+bucket[1] link count: empty
+bucket[2] link count: empty
+bucket[3] link count: empty
+bucket[4] link count: empty
+bucket[5] link count: empty
+bucket[6] link count: empty
+bucket[7] link count: empty
+bucket[8] link count: empty
+bucket[9] link count: empty
+bucket[10] link count: empty
+bucket[11] link count: empty
+bucket[12] link count: empty
+bucket[13] link count: empty
+bucket[14] link count: empty
+bucket[15] link count: empty
+test success!
+[maze@devcube 12:01:06 hashtable]$ 
 ```
