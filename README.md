@@ -86,13 +86,6 @@ Scanning dependencies of target test
 [ 80%] Building C object CMakeFiles/test.dir/hashtable_error.c.o
 [100%] Linking C executable test
 [100%] Built target test
-[maze@devcube 12:01:01 hashtable]$ make
-[ 20%] Building C object CMakeFiles/test.dir/test.c.o
-[ 40%] Building C object CMakeFiles/test.dir/hashtable.c.o
-[ 60%] Building C object CMakeFiles/test.dir/halfsiphash.c.o
-[ 80%] Building C object CMakeFiles/test.dir/hashtable_error.c.o
-[100%] Linking C executable test
-[100%] Built target test
 [maze@devcube 12:01:02 hashtable]$ ./test 10
 curr_buckets_size:       16
 max_buckets_size:        1024
